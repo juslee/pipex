@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   close_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:11:38 by welee            ###   ########.fr       */
+/*   Created: 2024/07/15 17:09:53 by welee             #+#    #+#             */
+/*   Updated: 2024/07/15 17:10:16 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex(char **argv, char **envp)
+void	close_fds(t_pipex *px)
 {
-	t_pipex	px;
-
-	setup_pipes(&px);
-	open_files(&px, argv);
-	fork_and_exec(&px, argv[2], 1, envp);
-	fork_and_exec(&px, argv[3], 0, envp);
-	close_fds(&px);
-	wait_for_children();
+	close(px->fd_in);
+	close(px->fd_out);
+	close(px->pipe_fd[0]);
+	close(px->pipe_fd[1]);
 }

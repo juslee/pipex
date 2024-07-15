@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   setup_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:11:38 by welee            ###   ########.fr       */
+/*   Created: 2024/07/15 17:06:28 by welee             #+#    #+#             */
+/*   Updated: 2024/07/15 17:06:46 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex(char **argv, char **envp)
+void	setup_pipes(t_pipex *px)
 {
-	t_pipex	px;
-
-	setup_pipes(&px);
-	open_files(&px, argv);
-	fork_and_exec(&px, argv[2], 1, envp);
-	fork_and_exec(&px, argv[3], 0, envp);
-	close_fds(&px);
-	wait_for_children();
+	if (pipe(px->pipe_fd) == -1)
+		handle_error("pipe error");
 }

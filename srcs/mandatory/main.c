@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:11:38 by welee            ###   ########.fr       */
+/*   Created: 2024/07/15 11:06:38 by welee             #+#    #+#             */
+/*   Updated: 2024/07/15 17:10:36 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex(char **argv, char **envp)
+int	main(int argc, char **argv)
 {
-	t_pipex	px;
+	extern char	**environ;
 
-	setup_pipes(&px);
-	open_files(&px, argv);
-	fork_and_exec(&px, argv[2], 1, envp);
-	fork_and_exec(&px, argv[3], 0, envp);
-	close_fds(&px);
-	wait_for_children();
+	if (argc != 5)
+	{
+		write(STDERR_FILENO, "Usage: ./pipex file1 cmd1 cmd2 file2\n",
+			ft_strlen("Usage: ./pipex file1 cmd1 cmd2 file2\n"));
+		return (1);
+	}
+	pipex(argv, environ);
+	return (0);
 }

@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   fork_and_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:11:38 by welee            ###   ########.fr       */
+/*   Created: 2024/07/15 17:07:17 by welee             #+#    #+#             */
+/*   Updated: 2024/07/15 17:08:28 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex(char **argv, char **envp)
+void	fork_and_exec(t_pipex *px, char *cmd, int is_first, char **envp)
 {
-	t_pipex	px;
-
-	setup_pipes(&px);
-	open_files(&px, argv);
-	fork_and_exec(&px, argv[2], 1, envp);
-	fork_and_exec(&px, argv[3], 0, envp);
-	close_fds(&px);
-	wait_for_children();
+	if (fork() == 0)
+	{
+		if (is_first)
+		{
+			dup2(px->fd_in, STDIN_FILENO);
+			dup2(px->pipe_fd[1], STDOUT_FILENO);
+		}
+		else
+		{
+			dup2(px->pipe_fd[0], STDIN_FILENO);
+			dup2(px->fd_out, STDOUT_FILENO);
+		}
+		close(px->pipe_fd[0]);
+		execute_cmd(cmd, envp);
+	}
 }

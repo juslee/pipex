@@ -6,21 +6,29 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/07/08 15:16:24 by welee            ###   ########.fr        #
+#    Updated: 2024/09/04 15:42:49 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex
-SRCS = $(shell find $(SRCS_DIR) -name '*.c')
+SRCS = $(wildcard $(SRCS_DIR)/*.c)
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+
+# BONUS_SRCS_DIR = srcs/bonus
+# BONUS_OBJS_DIR = objs/bonus
+# BONUS_SRCS = $(filter-out
+# 				$(SRCS_DIR)/main.c
+# 				$(SRCS_DIR)/pipex.c
+# 				$(SRCS_DIR)/fork_and_exec.c, $(wildcard $(SRCS_DIR)/*.c)) \
+# 			 $(wildcard $(BONUS_SRCS_DIR)/*.c)
 
 LIBFT_DIR = libft
 LIBFT = -L $(LIBFT_DIR)/bin -lft
 LIBFT_INC = -I $(LIBFT_DIR)/bin
 
 PUBLIC_DIR = public
-SRCS_DIR = srcs
-OBJS_DIR = objs
+SRCS_DIR = srcs/mandatory
+OBJS_DIR = objs/mandatory
 INCLUDES_DIR = includes
 TEST_DIR = tests
 DIST_DIR = dist

@@ -6,25 +6,52 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/07/23 09:31:18 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/04 16:05:02 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	pipex(char **argv, char **envp)
+void	pipex(int argc, char **argv, char **envp)
 {
 	t_pipex	px;
 	pid_t	pid1, pid2;
 
 	setup_pipes(&px);
-	open_files(&px, argv);
-	pid1 = fork_and_exec(&px, argv[2], 1, envp);
-	if (pid1 == -1)
-		handle_error("fork error");
-	pid2 = fork_and_exec(&px, argv[3], 0, envp);
-	if (pid2 == -1)
-		handle_error("fork error");
+	px.infile = argv[1];
+	px.outfile = argv[argc - 1];
+	px.is_first = 1;
+	px.is_last = 0;
+	pid1 = fork_and_exec(&px, argv[2], envp);
+	px.is_first = 0;
+	px.is_last = 1;
+	pid2 = fork_and_exec(&px, argv[3], envp);
 	close_fds(&px);
 	wait_for_children(pid1, pid2);
 }
+
+// void	pipex(int argc, char **argv, char **envp)
+// {
+// 	t_pipex	px;
+// 	int		i;
+// 	pid_t	pid;
+
+// 	px.pid_count = 0;
+// 	i = 2;
+// 	while (i < argc - 2)
+// 	{
+// 		setup_pipes(&px);
+// 		px.is_first = (i == 2);
+// 		px.is_last = 0;
+// 		pid = fork_and_exec(&px, argv[i], envp);
+// 		px.pids[px.pid_count++] = pid;
+// 		close_pipes(&px);
+// 		i++;
+// 	}
+// 	px.is_last = 1;
+// 	px.is_first = 0;
+// 	pid = fork_and_exec(&px, argv[argc - 2], envp);
+// 	px.pids[px.pid_count++] = pid;
+// 	wait_for_children(&px);
+// 	close_files(&px);
+// }

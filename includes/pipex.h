@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:26:19 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:34:08 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/04 16:03:45 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,29 @@
 
 typedef struct s_pipex
 {
-	int	fd_in;
-	int	fd_out;
-	int	pipe_fd[2];
+	int		fd_in;
+	int		fd_out;
+	int		pipe_fd[2];
+	char	*infile;
+	char	*outfile;
+	int		is_first;
+	int		is_last;
+	pid_t	pids[256];
+	int		pid_count;
 }		t_pipex;
 
-void	pipex(char **argv, char **envp);
-void	execute_cmd(char *cmd, char **envp);
+void	pipex(int argc, char **argv, char **envp);
+// void	execute_cmd(char *cmd, char **envp);
 void	handle_error(char *msg);
 void	setup_pipes(t_pipex *px);
-void	open_files(t_pipex *px, char **argv);
-pid_t	fork_and_exec(t_pipex *px, char *cmd, int is_first, char **envp);
+// void	open_files(t_pipex *px, char **argv);
+void	open_file(t_pipex *px, char *file, int flag);
+pid_t	fork_and_exec(t_pipex *px, char *cmd, char **envp);
+void	close_pipes(t_pipex *px);
+void	close_files(t_pipex *px);
 void	close_fds(t_pipex *px);
 void	wait_for_children(pid_t pid1, pid_t pid2);
+//void	wait_for_children(t_pipex *px);
 char	*find_cmd_path(char *cmd, char **envp);
 char	*join_path(const char *dir, const char *cmd);
 char	**get_paths_from_env(char **envp);

@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:15:29 by welee             #+#    #+#             */
-/*   Updated: 2024/07/15 17:16:29 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/04 13:32:23 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ char	**get_paths_from_env(char **envp)
 
 char	*find_cmd_in_paths(char **paths, char *cmd)
 {
-	char	*full_path;
+	char	*cmd_path;
 	int		i;
 
 	i = 0;
 	while (paths[i])
 	{
-		full_path = join_path(paths[i], cmd);
-		if (access(full_path, X_OK) == 0)
+		cmd_path = join_path(paths[i], cmd);
+		if (access(cmd_path, X_OK) == 0)
 		{
 			free_split(paths);
-			return (full_path);
+			return (cmd_path);
 		}
-		free(full_path);
+		free(cmd_path);
 		i++;
 	}
 	return (NULL);
@@ -64,11 +64,16 @@ char	*find_cmd_path(char *cmd, char **envp)
 	char	**paths;
 	char	*cmd_path;
 
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
 	paths = get_paths_from_env(envp);
 	if (!paths)
-		return (NULL);
+		handle_error("Error: PATH not found in environment");
 	cmd_path = find_cmd_in_paths(paths, cmd);
 	if (!cmd_path)
+	{
 		free_split(paths);
+		handle_error(cmd);
+	}
 	return (cmd_path);
 }

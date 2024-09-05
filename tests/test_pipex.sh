@@ -24,27 +24,31 @@ COLOR_END='\033[0m'
 
 rm -fr results.log
 
-echo \"And you\'re ready to give it to us?\" urged Loonquawl.>> deepthought.txt
-echo \"I am.\">> deepthought.txt
-echo \"Now?\">> deepthought.txt
-echo \"Now,\" said Deep Thought.>> deepthought.txt
-echo They both licked their dry lips.>> deepthought.txt
-echo \"Though I don\'t think,\" added Deep Thought, \"that you\'re going to like it.\">> deepthought.txt
-echo \"Doesn\'t matter\!\" said Phouchg. \"We must know it! Now\!\">> deepthought.txt
-echo \"Now?\" inquired Deep Thought.>> deepthought.txt
-echo \"Yes! Now ...\">> deepthought.txt
-echo \"Alright,\" said the computer and settled into silence again. The two men fidgeted. The tension was unbearable.>> deepthought.txt
-echo \"You\'re really not going to like it,\" observed Deep Thought.>> deepthought.txt
-echo \"Tell us\!\">> deepthought.txt
-echo \"Alright,\" said Deep Thought. \"The Answer to the Great Question...\">> deepthought.txt
-echo \"Yes ...\!\">> deepthought.txt
-echo \"Of Life, the Universe and Everything ...\" said Deep Thought.>> deepthought.txt
-echo \"Yes ...\!\">> deepthought.txt
-echo \"Is ...\" said Deep Thought, and paused.>> deepthought.txt
-echo \"Yes ...\!\">> deepthought.txt
-echo \"Is ...\">> deepthought.txt
-echo \"Yes ...\!\!\!...?\">> deepthought.txt
-echo \"Forty-two,\" said Deep Thought, with infinite majesty and calm.>> deepthought.txt
+deepthought () {
+	{
+		echo \"And you\'re ready to give it to us?\" urged Loonquawl.
+		echo \"I am.\"
+		echo \"Now?\"
+		echo \"Now,\" said Deep Thought.
+		echo They both licked their dry lips.
+		echo \"Though I don\'t think,\" added Deep Thought, \"that you\'re going to like it.\"
+		echo \"Doesn\'t matter\!\" said Phouchg. \"We must know it! Now\!\"
+		echo \"Now?\" inquired Deep Thought.
+		echo \"Yes! Now ...\"
+		echo \"Alright,\" said the computer and settled into silence again. The two men fidgeted. The tension was unbearable.
+		echo \"You\'re really not going to like it,\" observed Deep Thought.
+		echo \"Tell us\!\"
+		echo \"Alright,\" said Deep Thought. \"The Answer to the Great Question...\"
+		echo \"Yes ...\!\"
+		echo \"Of Life, the Universe and Everything ...\" said Deep Thought.
+		echo \"Yes ...\!\"
+		echo \"Is ...\" said Deep Thought, and paused.
+		echo \"Yes ...\!\"
+		echo \"Is ...\"
+		echo \"Yes ...\!\!\!...?\"
+		echo \"Forty-two,\" said Deep Thought, with infinite majesty and calm.
+	} >> deepthought.txt
+}
 
 val_check () {
 	if grep -q "definitely lost:" output.log; then
@@ -72,6 +76,8 @@ res_check () {
 		printf "${COLOR_G}[OK]\n${COLOR_END}"
 	fi
 }
+
+deepthought
 
 ####################################################################################################
 

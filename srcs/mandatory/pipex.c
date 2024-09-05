@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/09/04 16:05:02 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/05 22:08:59 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 void	pipex(int argc, char **argv, char **envp)
 {
 	t_pipex	px;
-	pid_t	pid1, pid2;
+	pid_t	pid[2];
 
 	setup_pipes(&px);
 	px.infile = argv[1];
 	px.outfile = argv[argc - 1];
 	px.is_first = 1;
 	px.is_last = 0;
-	pid1 = fork_and_exec(&px, argv[2], envp);
+	pid[0] = fork_and_exec(&px, argv[2], envp);
 	px.is_first = 0;
 	px.is_last = 1;
-	pid2 = fork_and_exec(&px, argv[3], envp);
+	pid[1] = fork_and_exec(&px, argv[3], envp);
 	close_fds(&px);
-	wait_for_children(pid1, pid2);
+	// wait_for_children(pid, 2);
 }
 
 // void	pipex(int argc, char **argv, char **envp)

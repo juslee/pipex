@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   handler_error.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 11:06:38 by welee             #+#    #+#             */
-/*   Updated: 2024/09/05 13:58:35 by welee            ###   ########.fr       */
+/*   Created: 2024/07/15 11:42:17 by welee             #+#    #+#             */
+/*   Updated: 2024/09/05 21:13:17 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv)
+void	handle_error(char *msg)
 {
-	extern char	**environ;
+	perror(msg);
+	exit(EXIT_FAILURE);
+}
 
-	if (argc < 5)
-	{
-		write(STDERR_FILENO, "Usage: ./pipex file1 cmd1 cmd2 file2\n",
-			ft_strlen("Usage: ./pipex file1 cmd1 cmd2 file2\n"));
-		return (1);
-	}
-	pipex(argc, argv, environ);
-	return (0);
+void	handle_error_command_not_found(char *cmd)
+{
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	exit(127);
+}
+
+void	handle_error_is_a_directory(char *cmd)
+{
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+	exit(126);
 }

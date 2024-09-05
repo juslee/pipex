@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handler_error.c                                    :+:      :+:    :+:   */
+/*   check_absolute_or_relative_cmd.c                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 11:42:17 by welee             #+#    #+#             */
-/*   Updated: 2024/09/04 11:03:54 by welee            ###   ########.fr       */
+/*   Created: 2024/09/05 20:37:10 by welee             #+#    #+#             */
+/*   Updated: 2024/09/05 20:37:48 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	handle_error(char *msg)
+char	*check_absolute_or_relative_cmd(char *cmd)
 {
-	perror(msg);
-	exit(EXIT_FAILURE);
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
+	handle_error(cmd);
+	return (NULL);
 }

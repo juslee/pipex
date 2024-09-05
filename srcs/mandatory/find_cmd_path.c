@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 16:15:29 by welee             #+#    #+#             */
-/*   Updated: 2024/09/04 13:32:23 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/05 20:38:23 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,40 @@ char	*find_cmd_in_paths(char **paths, char *cmd)
 	return (NULL);
 }
 
+int	ends_with_slash(const char *cmd)
+{
+	size_t	len;
+
+	len = ft_strlen(cmd);
+	if (len > 0 && cmd[len - 1] == '/')
+		return (1);
+	return (0);
+}
+
 char	*find_cmd_path(char *cmd, char **envp)
 {
+	char	path_with_slash[1024];
 	char	**paths;
 	char	*cmd_path;
 
-	if (access(cmd, F_OK) == 0)
+	if (ends_with_slash(cmd))
+		handle_error_is_a_directory(cmd);
+	if (ft_strchr(cmd, '/'))
+		return (check_absolute_or_relative_cmd(cmd));
+	ft_strlcpy(path_with_slash, cmd, sizeof(path_with_slash));
+	ft_strlcat(path_with_slash, "/", sizeof(path_with_slash));
+	if (access(path_with_slash, F_OK) == 0)
+		handle_error_command_not_found(cmd);
+	if (access(cmd, F_OK) == 0 && access(cmd, X_OK) == 0)
 		return (cmd);
 	paths = get_paths_from_env(envp);
 	if (!paths)
-		handle_error("Error: PATH not found in environment");
+		handle_error(cmd);
 	cmd_path = find_cmd_in_paths(paths, cmd);
 	if (!cmd_path)
 	{
 		free_split(paths);
-		handle_error(cmd);
+		handle_error_command_not_found(cmd);
 	}
 	return (cmd_path);
 }

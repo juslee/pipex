@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:07:17 by welee             #+#    #+#             */
-/*   Updated: 2024/09/04 16:05:34 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/05 22:05:16 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ pid_t	fork_and_exec(t_pipex *px, char *cmd, char **envp)
 		cmd_args = ft_split(cmd, ' ');
 		cmd_path = find_cmd_path(cmd_args[0], envp);
 		if (execve(cmd_path, cmd_args, envp) == -1)
+		{
+			free_split(cmd_args);
 			handle_error(cmd);
+		}
 	}
 	return (pid);
 }

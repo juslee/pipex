@@ -237,27 +237,27 @@ res_check "~~~~~~ False command B3"
 
 printf "${COLOR_Y}Test B1\n${COLOR_END}"
 < ./deepthought.txt grep Now | /usr/bin/cat | wc -l > outfile1
-valgrind --leak-check=full -s  ./pipex "./deepthought.txt" "grep Now" "/usr/bin/cat" "wc -l" outfile2 2> output.log; $VAL_CHECK
+$VALGRIND $PIPEX "./deepthought.txt" "grep Now" "/usr/bin/cat" "wc -l" outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B1"
 
 printf "${COLOR_Y}Test B2\n${COLOR_END}"
 < ./ du | cat | wc | cut -c 1-7 > outfile1
-valgrind --leak-check=full -s  ./pipex "./" du cat wc "cut -c 1-7" outfile2 2> output.log; $VAL_CHECK
+$VALGRIND $PIPEX "./" du cat wc "cut -c 1-7" outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B2"
 
 printf "${COLOR_Y}Test B3\n${COLOR_END}"
 < ./deepthought.txt cat | tr [:lower:] [:upper:] | head -5 | tail -3 | cat > outfile1
-valgrind --leak-check=full -s  ./pipex "./deepthought.txt" cat "tr [:lower:] [:upper:]" "head -5" "tail -3" cat outfile2 2> output.log; $VAL_CHECK
+$VALGRIND $PIPEX "./deepthought.txt" cat "tr [:lower:] [:upper:]" "head -5" "tail -3" cat outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B3"
 
 printf "${COLOR_Y}Test B4\n${COLOR_END}"
 < ./deepthought.txt cat | grep Now | /usr/bin/ls -l | cat | tail -2 > outfile1
-valgrind --leak-check=full -s  ./pipex "./deepthought.txt" cat "grep Now" "/usr/bin/ls -l" cat "tail -2" outfile2 2> output.log; $VAL_CHECK
+$VALGRIND $PIPEX "./deepthought.txt" cat "grep Now" "/usr/bin/ls -l" cat "tail -2" outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B4"
 
 printf "${COLOR_Y}Test B5\n${COLOR_END}"
 < ./deepthought.txt cat | cat | cat | grep Now | cat | cat | cat | tail -2 > outfile1
-valgrind --leak-check=full -s  ./pipex "./deepthought.txt" cat cat cat "grep Now" cat cat cat "tail -2" outfile2 2> output.log; $VAL_CHECK
+$VALGRIND $PIPEX "./deepthought.txt" cat cat cat "grep Now" cat cat cat "tail -2" outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B5"
 
 printf "${COLOR_Y}here_doc\n${COLOR_END}"

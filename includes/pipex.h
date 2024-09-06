@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:26:19 by welee             #+#    #+#             */
-/*   Updated: 2024/09/05 22:11:06 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/06 11:27:17 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@
 
 typedef struct s_pipex
 {
+	int		**pipes;
+	int		num_cmds;
 	int		fd_in;
 	int		fd_out;
-	int		pipe_fd[2];
 	char	*infile;
 	char	*outfile;
-	int		is_first;
-	int		is_last;
 }		t_pipex;
 
 void	pipex(int argc, char **argv, char **envp);
@@ -36,13 +35,13 @@ void	pipex(int argc, char **argv, char **envp);
 void	handle_error(char *msg);
 void	handle_error_command_not_found(char *cmd);
 void	handle_error_is_a_directory(char *cmd);
-void	setup_pipes(t_pipex *px);
+void	setup_pipes(t_pipex *px, int num_cmds);
 // void	open_files(t_pipex *px, char **argv);
 void	open_file(t_pipex *px, char *file, int flag);
-pid_t	fork_and_exec(t_pipex *px, char *cmd, char **envp);
-void	close_pipes(t_pipex *px);
+pid_t	fork_and_exec(t_pipex *px, char *cmd, char **envp, int i);
+void	close_pipes(t_pipex *px, int num_cmds);
 void	close_files(t_pipex *px);
-void	close_fds(t_pipex *px);
+void	close_fds(t_pipex *px, int num_cmds);
 //void	wait_for_children(pid_t pid1, pid_t pid2);
 void	wait_for_children(pid_t px[], int pid_count);
 char	*find_cmd_path(char *cmd, char **envp);
@@ -50,4 +49,5 @@ char	*join_path(const char *dir, const char *cmd);
 char	**get_paths_from_env(char **envp);
 char	*check_absolute_or_relative_cmd(char *cmd);
 void	free_split(char **split);
+void	free_pipes(t_pipex *px, int num_cmds);
 #endif

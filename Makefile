@@ -6,7 +6,7 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/04 15:42:49 by welee            ###   ########.fr        #
+#    Updated: 2024/09/06 12:23:19 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,10 @@ OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 # 				$(SRCS_DIR)/fork_and_exec.c, $(wildcard $(SRCS_DIR)/*.c)) \
 # 			 $(wildcard $(BONUS_SRCS_DIR)/*.c)
 
-LIBFT_DIR = libft
-LIBFT = -L $(LIBFT_DIR)/bin -lft
-LIBFT_INC = -I $(LIBFT_DIR)/bin
+LIBFT_DIR = $(LIBS_DIR)/libft
+LIBFT = $(LIBFT_DIR)/bin/libft.a
+LIBFT_LIB = -L$(LIBFT_DIR)/bin -lft
+LIBFT_INC = $(LIBFT_DIR)/includes
 
 PUBLIC_DIR = public
 SRCS_DIR = srcs/mandatory
@@ -32,6 +33,7 @@ OBJS_DIR = objs/mandatory
 INCLUDES_DIR = includes
 TEST_DIR = tests
 DIST_DIR = dist
+LIBS_DIR = libs
 BIN_DIR = bin
 DOCS_DIR = docs
 

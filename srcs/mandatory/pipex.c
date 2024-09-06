@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 12:57:35 by welee             #+#    #+#             */
-/*   Updated: 2024/09/05 22:08:59 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/06 11:27:03 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,26 @@
 void	pipex(int argc, char **argv, char **envp)
 {
 	t_pipex	px;
-	pid_t	pid[2];
+	pid_t	*pids;
+	int		i;
 
-	setup_pipes(&px);
 	px.infile = argv[1];
 	px.outfile = argv[argc - 1];
-	px.is_first = 1;
-	px.is_last = 0;
-	pid[0] = fork_and_exec(&px, argv[2], envp);
-	px.is_first = 0;
-	px.is_last = 1;
-	pid[1] = fork_and_exec(&px, argv[3], envp);
-	close_fds(&px);
-	// wait_for_children(pid, 2);
+	px.num_cmds = argc - 3;
+	setup_pipes(&px, px.num_cmds);
+	pids = malloc(sizeof(pid_t) * px.num_cmds);
+	if (!pids)
+		handle_error("Memory allocation failed");
+	i = 0;
+	while (i < px.num_cmds)
+	{
+		pids[i] = fork_and_exec(&px, argv[i + 2], envp, i);
+		i++;
+	}
+	close_pipes(&px, px.num_cmds);
+	wait_for_children(pids, px.num_cmds);
+	free(pids);
+	free_pipes(&px, px.num_cmds);
 }
 
 // void	pipex(int argc, char **argv, char **envp)

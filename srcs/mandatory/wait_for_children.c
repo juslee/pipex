@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/05 21:17:26 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/06 11:17:14 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 // 	waitpid(pid2, &status, 0);
 // }
 
-void	wait_for_children(pid_t pid[], int pid_count)
+void	wait_for_children(pid_t pid[], int num_cmds)
 {
 	int	i;
 	int	status;
 
 	i = 0;
-	while (i < pid_count)
+	while (i < num_cmds)
 	{
 		waitpid(pid[i], &status, 0);
 		i++;

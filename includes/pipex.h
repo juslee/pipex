@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 13:26:19 by welee             #+#    #+#             */
-/*   Updated: 2024/09/06 11:27:17 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/06 15:18:13 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_pipex
 	int		fd_out;
 	char	*infile;
 	char	*outfile;
+	int		here_doc;
+	int		arg_index;
 }		t_pipex;
 
 void	pipex(int argc, char **argv, char **envp);
@@ -35,6 +37,7 @@ void	pipex(int argc, char **argv, char **envp);
 void	handle_error(char *msg);
 void	handle_error_command_not_found(char *cmd);
 void	handle_error_is_a_directory(char *cmd);
+void	handle_here_doc(char *limiter);
 void	setup_pipes(t_pipex *px, int num_cmds);
 // void	open_files(t_pipex *px, char **argv);
 void	open_file(t_pipex *px, char *file, int flag);

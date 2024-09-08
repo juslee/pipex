@@ -6,21 +6,24 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:07:17 by welee             #+#    #+#             */
-/*   Updated: 2024/09/06 11:18:28 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/08 09:56:30 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	handle_input(t_pipex *px, int i, int is_first)
+void	handle_input(t_pipex *px, int i)
 {
-	if (is_first)
+	if (i == 0)
 	{
-		px->fd_in = open(px->infile, O_RDONLY);
-		if (px->fd_in == -1)
-			handle_error(px->infile);
-		dup2(px->fd_in, STDIN_FILENO);
-		close(px->fd_in);
+		if (!px->here_doc)
+		{
+			px->fd_in = open(px->infile, O_RDONLY);
+			if (px->fd_in == -1)
+				handle_error(px->infile);
+			dup2(px->fd_in, STDIN_FILENO);
+			close(px->fd_in);
+		}
 	}
 	else
 	{
@@ -31,9 +34,16 @@ void	handle_input(t_pipex *px, int i, int is_first)
 
 void	handle_output(t_pipex *px, int i, int is_last)
 {
+	int	flags;
+
 	if (is_last)
 	{
-		px->fd_out = open(px->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		flags = O_WRONLY | O_CREAT;
+		if (px->here_doc)
+			flags |= O_APPEND;
+		else
+			flags |= O_TRUNC;
+		px->fd_out = open(px->outfile, flags, 0644);
 		if (px->fd_out == -1)
 			handle_error(px->outfile);
 		dup2(px->fd_out, STDOUT_FILENO);
@@ -57,7 +67,7 @@ pid_t	fork_and_exec(t_pipex *px, char *cmd, char **envp, int i)
 		handle_error("fork");
 	if (pid == 0)
 	{
-		handle_input(px, i, (i == 0));
+		handle_input(px, i);
 		handle_output(px, i, (i == px->num_cmds - 1));
 		close_pipes(px, px->num_cmds);
 		cmd_args = ft_split(cmd, ' ');

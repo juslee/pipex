@@ -6,7 +6,7 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/06 13:33:49 by welee            ###   ########.fr        #
+#    Updated: 2024/09/09 16:08:33 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,8 @@ GET_NEXT_LINE_LIB = -L$(GET_NEXT_LINE_DIR)/bin -lgnl
 GET_NEXT_LINE_INC = $(GET_NEXT_LINE_DIR)/includes
 
 PUBLIC_DIR = public
-SRCS_DIR = srcs/mandatory
-OBJS_DIR = objs/mandatory
+SRCS_DIR = srcs
+OBJS_DIR = objs
 INCS_DIR = includes
 TEST_DIR = tests
 DIST_DIR = dist

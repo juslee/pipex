@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:51:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 00:34:02 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/10 15:54:30 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,21 @@
 
 void	parse_args(int argc, char **argv, t_pipex *pipex)
 {
-	if (argc != 5)
-		error_args("Usage: ./pipex file1 cmd1 cmd2 file2\n", EXIT_FAILURE);
+	int	i;
+
 	pipex->file1 = argv[1];
 	pipex->file2 = argv[argc - 1];
-	pipex->cmd1 = argv[2];
-	pipex->cmd2 = argv[3];
+	pipex->num_cmds = argc - 3;
+	pipex->cmds = malloc(pipex->num_cmds * sizeof(char *));
+	if (!pipex->cmds)
+		error_exit("Error: malloc failed for commands", pipex, EXIT_FAILURE);
+	pipex->pids = malloc(pipex->num_cmds * sizeof(pid_t));
+	if (!pipex->pids)
+		error_exit("Error: malloc failed for PIDs", pipex, EXIT_FAILURE);
+	i = 0;
+	while (i < pipex->num_cmds)
+	{
+		pipex->cmds[i] = argv[i + 2];
+		i++;
+	}
 }

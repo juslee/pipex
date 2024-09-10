@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 00:02:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 13:14:21 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:49:28 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ char	*handle_direct_path(char *cmd)
 	else
 	{
 		if (errno == EACCES)
-			error_msg(cmd, "Permission denied");
-		else
-			error_msg(cmd, "No such file or directory");
+		{
+			perror(cmd);
+			return (NULL);
+		}
+		perror(cmd);
 		return (NULL);
 	}
 }
@@ -66,7 +68,6 @@ char	*search_in_path_dirs(char *cmd, char **path_dirs)
 		full_path = join_path(path_dirs[i], cmd);
 		if (access(full_path, X_OK) == 0)
 		{
-			free_split(path_dirs);
 			return (full_path);
 		}
 		free(full_path);
@@ -86,14 +87,19 @@ char	*find_cmd_path(char *cmd, char **envp)
 	path_env = get_path_from_envp(envp);
 	if (!path_env)
 	{
-		perror("Error: PATH not found in environment");
+		perror(cmd);
 		return (NULL);
 	}
 	path_dirs = ft_split(path_env, ':');
+	if (!path_dirs)
+	{
+		perror(cmd);
+		return (NULL);
+	}
 	result = search_in_path_dirs(cmd, path_dirs);
+	free_split(path_dirs);
 	if (result)
 		return (result);
-	free_split(path_dirs);
 	error_msg(cmd, "command not found");
 	return (NULL);
 }

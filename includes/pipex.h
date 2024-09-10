@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 11:15:51 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/10 12:32:28 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <string.h>
+# include <sys/wait.h>
 # include "libft.h"
 # include "get_next_line.h"
 

@@ -6,12 +6,12 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/09 16:08:33 by welee            ###   ########.fr        #
+#    Updated: 2024/09/09 16:42:32 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = $(BINS_DIR)/pipex
-SRCS = $(wildcard $(SRCS_DIR)/*.c)
+SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 # BONUS_SRCS_DIR = srcs/bonus

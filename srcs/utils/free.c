@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 16:18:28 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 00:34:14 by welee            ###   ########.fr       */
+/*   Created: 2024/09/10 10:50:42 by welee             #+#    #+#             */
+/*   Updated: 2024/09/10 10:51:17 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
+void	free_split(char **split)
 {
-	t_pipex	pipex;
+	int	i;
 
-	(void)envp;
-	parse_args(argc, argv, &pipex);
-	setup_pipes(&pipex, envp);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

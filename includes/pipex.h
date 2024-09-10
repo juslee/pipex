@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 00:30:35 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 01:10:11 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	close_pipes(int **pipes, int num_cmds);
 // Execution
 void	create_pipes(t_pipex *pipex);
 void	setup_pipes(t_pipex *pipex, char **envp);
-void	execute_cmd(char *cmd, char **envp);
+void	execute_cmd(t_pipex *pipex, char *cmd, char **envp);
 
 // Command path
 char	*find_cmd_path(char *cmd, char **envp);

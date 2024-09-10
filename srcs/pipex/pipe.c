@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 00:26:04 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 01:09:52 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	handle_first_cmd(t_pipex *pipex, int *pipefd)
 	if (fd_in < 0)
 	{
 		perror(pipex->file1);
+		free_pipex(pipex);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[0]);
 		close(pipefd[1]);
@@ -39,6 +40,7 @@ static void	handle_second_cmd(t_pipex *pipex, int *pipefd)
 	if (fd_out < 0)
 	{
 		perror(pipex->file2);
+		free_pipex(pipex);
 		exit(EXIT_FAILURE);
 	}
 	dup2(pipefd[0], STDIN_FILENO);
@@ -55,7 +57,7 @@ static void	handle_cmd(int *prev_pipe, int *next_pipe)
 	close(next_pipe[0]);
 }
 
-static void	wait_pids(pid_t *pids, int num_cmds)
+static void	wait_pids(t_pipex *pipex, pid_t *pids, int num_cmds)
 {
 	int	i;
 	int	status;
@@ -65,7 +67,10 @@ static void	wait_pids(pid_t *pids, int num_cmds)
 	{
 		waitpid(pids[i], &status, 0);
 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		{
+			free_pipex(pipex);
 			exit(EXIT_FAILURE);
+		}
 		i++;
 	}
 }
@@ -88,11 +93,12 @@ void	setup_pipes(t_pipex *pipex, char **envp)
 				handle_second_cmd(pipex, pipex->pipes[i - 1]);
 			else
 				handle_cmd(pipex->pipes[i - 1], pipex->pipes[i]);
-			execute_cmd(pipex->cmds[i], envp);
+			execute_cmd(pipex, pipex->cmds[i], envp);
+			free_pipex(pipex);
 			exit(EXIT_SUCCESS);
 		}
 		i++;
 	}
 	close_pipes(pipex->pipes, pipex->num_cmds);
-	wait_pids(pipex->pids, pipex->num_cmds);
+	wait_pids(pipex, pipex->pids, pipex->num_cmds);
 }

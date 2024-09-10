@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:50:42 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 23:11:00 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 01:11:44 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,21 @@ void	free_pipes(int **pipes, int num_cmds)
 	}
 	if (pipes)
 		free(pipes);
+}
+
+void	free_cmds(char **cmds, int num_cmds)
+{
+	int	i;
+
+	i = 0;
+	while (i < num_cmds)
+	{
+		if (cmds[i])
+			free(cmds[i]);
+		i++;
+	}
+	if (cmds)
+		free(cmds);
 }
 
 void	free_pipex(t_pipex *pipex)

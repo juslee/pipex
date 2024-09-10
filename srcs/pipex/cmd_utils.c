@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 00:02:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 11:55:21 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/10 13:14:21 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,25 @@ char	*get_path_from_envp(char **envp)
 	return (NULL);
 }
 
-char	*find_cmd_path(char *cmd, char **envp)
+char	*handle_direct_path(char *cmd)
 {
-	char	*path_env;
-	char	**path_dirs;
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
+	else
+	{
+		if (errno == EACCES)
+			error_msg(cmd, "Permission denied");
+		else
+			error_msg(cmd, "No such file or directory");
+		return (NULL);
+	}
+}
+
+char	*search_in_path_dirs(char *cmd, char **path_dirs)
+{
 	char	*full_path;
 	int		i;
 
-	if (ft_strchr(cmd, '/') != NULL)
-	{
-		if (access(cmd, X_OK) == 0)
-			return (cmd);
-		else
-		{
-			if (errno == EACCES)
-				error_msg(cmd, "Permission denied");
-			else
-				error_msg(cmd, "No such file or directory");
-			return (NULL);
-		}
-	}
-	path_env = get_path_from_envp(envp);
-	if (!path_env)
-	{
-		perror("Error: PATH not found in environment");
-		return (NULL);
-	}
-	path_dirs = ft_split(path_env, ':');
 	i = 0;
 	while (path_dirs[i])
 	{
@@ -80,6 +72,27 @@ char	*find_cmd_path(char *cmd, char **envp)
 		free(full_path);
 		i++;
 	}
+	return (NULL);
+}
+
+char	*find_cmd_path(char *cmd, char **envp)
+{
+	char	*path_env;
+	char	**path_dirs;
+	char	*result;
+
+	if (ft_strchr(cmd, '/') != NULL)
+		return (handle_direct_path(cmd));
+	path_env = get_path_from_envp(envp);
+	if (!path_env)
+	{
+		perror("Error: PATH not found in environment");
+		return (NULL);
+	}
+	path_dirs = ft_split(path_env, ':');
+	result = search_in_path_dirs(cmd, path_dirs);
+	if (result)
+		return (result);
 	free_split(path_dirs);
 	error_msg(cmd, "command not found");
 	return (NULL);

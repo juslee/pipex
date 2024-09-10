@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:55:07 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 11:16:56 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/10 13:15:21 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ void	error_args(char *msg, int code)
 	exit(code);
 }
 
-void	error_exit(const char *msg, /* pid_t *pids, t_fds *fds,*/ int code)
+void	error_exit(const char *msg, int code)
 {
 	perror(msg);
-	// cleanup(pids, fds);
 	exit(code);
 }

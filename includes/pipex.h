@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 08:02:11 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 12:51:24 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_pipex
 	int		num_cmds;
 	int		**pipes;
 	pid_t	*pids;
+	int		here_doc;
 }	t_pipex;
 
 // Utils

@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 16:14:52 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:43:07 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,10 @@ static void	handle_first_cmd(t_pipex *pipex, int *pipefd)
 		if (fd_in < 0)
 		{
 			perror(pipex->file1);
-			free_pipex(pipex);
 			dup2(pipefd[1], STDOUT_FILENO);
 			close(pipefd[0]);
 			close(pipefd[1]);
-			exit(EXIT_FAILURE);
+			free_exit(pipex, EXIT_FAILURE);
 		}
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);

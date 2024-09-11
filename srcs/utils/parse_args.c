@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:51:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 12:56:49 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:55:39 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	parse_args(int argc, char **argv, t_pipex *pipex)
 {
 	int	i;
 
-	if (ft_strcmp(argv[1], "here_doc") == 0)
+	if (ft_strncmp(argv[1], "here_doc", ft_strlen("here_doc")) == 0)
 		pipex->here_doc = 1;
 	else
 		pipex->here_doc = 0;

@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 09:04:05 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 16:14:52 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,37 @@ static void	handle_first_cmd(t_pipex *pipex, int *pipefd)
 {
 	int	fd_in;
 
-	fd_in = open(pipex->file1, O_RDONLY);
-	if (fd_in < 0)
+	if (!pipex->here_doc)
 	{
-		perror(pipex->file1);
-		free_pipex(pipex);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		exit(EXIT_FAILURE);
+		fd_in = open(pipex->file1, O_RDONLY);
+		if (fd_in < 0)
+		{
+			perror(pipex->file1);
+			free_pipex(pipex);
+			dup2(pipefd[1], STDOUT_FILENO);
+			close(pipefd[0]);
+			close(pipefd[1]);
+			exit(EXIT_FAILURE);
+		}
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
 	}
-	dup2(fd_in, STDIN_FILENO);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	close(fd_in);
 }
 
 static void	handle_second_cmd(t_pipex *pipex, int *pipefd)
 {
 	int	fd_out;
+	int	flags;
 
-	(void)pipefd;
-	fd_out = open(pipex->file2, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	flags = O_WRONLY | O_CREAT;
+	if (pipex->here_doc)
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+	fd_out = open(pipex->file2, flags, 0644);
 	if (fd_out < 0)
 	{
 		perror(pipex->file2);
@@ -49,7 +57,6 @@ static void	handle_second_cmd(t_pipex *pipex, int *pipefd)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	close(fd_out);
-
 }
 
 static void	handle_cmd(int *prev_pipe, int *next_pipe)

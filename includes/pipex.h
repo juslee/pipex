@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 12:51:24 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 15:52:35 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,8 @@ char	*search_in_path_dirs(char *cmd, char **path_dirs);
 char	*handle_direct_path(char *cmd);
 char	*get_path_from_envp(char **envp);
 char	*join_path(const char *dir, const char *cmd);
+
+// Here_doc
+void	handle_here_doc(t_pipex *pipex, char *limiter);
 
 #endif

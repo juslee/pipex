@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 08:50:21 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 09:01:28 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,20 +62,20 @@ static void	handle_cmd(int *prev_pipe, int *next_pipe)
 	close(next_pipe[1]);
 }
 
-// static void	wait_pids(t_pipex *pipex, pid_t *pids, int num_cmds)
-// {
-// 	int	i;
-// 	int	status;
+static void	wait_pids(t_pipex *pipex, pid_t *pids, int num_cmds)
+{
+	int	i;
+	int	status;
 
-// 	i = 0;
-// 	while (i < num_cmds)
-// 	{
-// 		waitpid(pids[i], &status, 0);
-// 		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-// 			free_exit(pipex, EXIT_FAILURE);
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < num_cmds)
+	{
+		waitpid(pids[i], &status, 0);
+		if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+			free_exit(pipex, EXIT_FAILURE);
+		i++;
+	}
+}
 
 void	setup_pipes(t_pipex *pipex, char **envp)
 {
@@ -102,5 +102,5 @@ void	setup_pipes(t_pipex *pipex, char **envp)
 		i++;
 	}
 	// close_pipes(pipex->pipes, pipex->num_cmds);
-	// wait_pids(pipex, pipex->pids, pipex->num_cmds);
+	wait_pids(pipex, pipex->pids, pipex->num_cmds);
 }

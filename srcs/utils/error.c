@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:55:07 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 08:00:15 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 12:21:07 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	error_msg(char *err, char *msg)
 
 void	error_args(char *msg, int code)
 {
-	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putendl_fd(msg, STDERR_FILENO);
 	exit(code);
 }
 

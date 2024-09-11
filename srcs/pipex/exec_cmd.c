@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:40:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 01:09:35 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 08:01:04 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,19 @@ void	execute_cmd(t_pipex *pipex, char *cmd, char **envp)
 	{
 		if (args)
 			free_split(args);
-		free_pipex(pipex);
-		exit(EXIT_FAILURE);
+		free_exit(pipex, EXIT_FAILURE);
 	}
 	cmd_path = find_cmd_path(args[0], envp);
 	if (!cmd_path)
 	{
 		free_split(args);
-		free_pipex(pipex);
-		exit(EXIT_FAILURE);
+		free_exit(pipex, EXIT_FAILURE);
 	}
 	if (execve(cmd_path, args, envp) == -1)
 	{
 		free(cmd_path);
 		free_split(args);
-		free_pipex(pipex);
-		exit(EXIT_FAILURE);
+		free_exit(pipex, EXIT_FAILURE);
 	}
 	free(cmd_path);
 	free_split(args);

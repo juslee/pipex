@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 16:09:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 01:10:11 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 08:02:11 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	parse_args(int argc, char **argv, t_pipex *pipex);
 void	error_msg(char *err, char *msg);
 void	error_args(char *msg, int code);
 void	error_exit(const char *msg, t_pipex *pipex, int code);
+void	free_exit(t_pipex *pipex, int code);
 
 // Free
 void	free_split(char **split);

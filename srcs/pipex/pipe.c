@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 09:01:28 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/11 09:02:30 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void	setup_pipes(t_pipex *pipex, char **envp)
 				handle_second_cmd(pipex, pipex->pipes[i - 1]);
 			else
 				handle_cmd(pipex->pipes[i - 1], pipex->pipes[i]);
-			close_pipes(pipex->pipes, pipex->num_cmds);
+			// close_pipes(pipex->pipes, pipex->num_cmds);
 			execute_cmd(pipex, pipex->cmds[i], envp);
 			free_exit(pipex, EXIT_FAILURE);
 		}
 		i++;
 	}
-	// close_pipes(pipex->pipes, pipex->num_cmds);
+	close_pipes(pipex->pipes, pipex->num_cmds);
 	wait_pids(pipex, pipex->pids, pipex->num_cmds);
 }

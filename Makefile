@@ -6,7 +6,7 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/13 18:35:55 by welee            ###   ########.fr        #
+#    Updated: 2024/09/13 19:07:07 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,13 +14,6 @@ NAME = $(BINS_DIR)/pipex
 SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-# BONUS_SRCS_DIR = srcs/bonus
-# BONUS_OBJS_DIR = objs/bonus
-# BONUS_SRCS = $(filter-out
-# 				$(SRCS_DIR)/main.c
-# 				$(SRCS_DIR)/pipex.c
-# 				$(SRCS_DIR)/fork_and_exec.c, $(wildcard $(SRCS_DIR)/*.c)) \
-# 			 $(wildcard $(BONUS_SRCS_DIR)/*.c)
 
 LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/bin/libft.a
@@ -32,7 +25,6 @@ GET_NEXT_LINE = $(GET_NEXT_LINE_DIR)/bin/libgnl.a
 GET_NEXT_LINE_LIB = -L$(GET_NEXT_LINE_DIR)/bin -lgnl
 GET_NEXT_LINE_INC = $(GET_NEXT_LINE_DIR)/includes
 
-PUBLIC_DIR = public
 SRCS_DIR = srcs
 OBJS_DIR = objs
 INCS_DIR = includes
@@ -42,7 +34,6 @@ LIBS_DIR = libs
 BINS_DIR = bin
 DOCS_DIR = docs
 
-INCLUDES = -I ${INCLUDES_DIR}
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCS_DIR) -I$(LIBFT_INC) -I$(GET_NEXT_LINE_INC)
 LIBC = ar rcs
@@ -104,7 +95,7 @@ fclean: clean
 re: fclean all
 
 norm:
-	$(NORM) $(NORM_FLAGS) $(SRCS_DIR) $(INCLUDES_DIR)
+	$(NORM) $(NORM_FLAGS) $(SRCS_DIR) $(INCS_DIR)
 	@$(ECHO) "\033[32mNorm check completed\033[0m"
 
 tests: all

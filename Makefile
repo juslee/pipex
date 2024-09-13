@@ -6,11 +6,11 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/09 16:42:32 by welee            ###   ########.fr        #
+#    Updated: 2024/09/13 16:03:51 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = $(BINS_DIR)/pipex
+NAME = pipex
 SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
@@ -83,11 +83,13 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 clean:
 	$(RM) $(OBJS)
 	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(GET_NEXT_LINE_DIR) clean
 	@$(ECHO) "\033[31m$(NAME) object files removed\033[0m"
 
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(GET_NEXT_LINE_DIR) fclean
 	@$(ECHO) "\033[31m$(NAME) removed\033[0m"
 
 re: fclean all

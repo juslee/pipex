@@ -2,7 +2,7 @@
 # norminette -R CheckForbiddenSourceHeader CheckDefine
 
 # Set PIPEX variable
-PIPEX=./bin/pipex
+PIPEX=./pipex
 
 # Detect OS and set VALGRIND variable
 UNAME_S=$(uname -s)
@@ -236,7 +236,7 @@ $VALGRIND $PIPEX "./deepthought.txt" "grep Now" "tail -10" "wc -l" "nah -d ect" 
 res_check "~~~~~~ False command B3"
 
 printf "${COLOR_Y}Test B1\n${COLOR_END}"
-< ./deepthought.txt grep Now | /usr/bin/cat | wc -l > outfile1
+< ./deepthought.txt grep Now | /usr/in/cat | wc -l > outfile1
 $VALGRIND $PIPEX "./deepthought.txt" "grep Now" "/usr/bin/cat" "wc -l" outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ B1"
 

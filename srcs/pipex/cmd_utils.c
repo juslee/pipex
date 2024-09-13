@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 00:02:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 23:49:28 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 11:51:58 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,9 @@ char	*get_path_from_envp(char **envp)
 char	*handle_direct_path(char *cmd)
 {
 	if (access(cmd, X_OK) == 0)
-		return (cmd);
+		return (ft_strdup(cmd));
 	else
 	{
-		if (errno == EACCES)
-		{
-			perror(cmd);
-			return (NULL);
-		}
 		perror(cmd);
 		return (NULL);
 	}

@@ -6,11 +6,11 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/13 16:03:51 by welee            ###   ########.fr        #
+#    Updated: 2024/09/13 18:35:55 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex
+NAME = $(BINS_DIR)/pipex
 SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
@@ -52,6 +52,14 @@ MAKE = make
 CD = cd
 CP = cp -r
 ECHO = echo
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	SED := sed -i
+else ifeq ($(UNAME_S),Darwin)
+	SED := sed -i ''
+else
+	$(error Unsupported OS)
+endif
 WHOAMI = $(shell whoami)
 
 NORM = norminette
@@ -88,6 +96,7 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) -r $(DIST_DIR)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(GET_NEXT_LINE_DIR) fclean
 	@$(ECHO) "\033[31m$(NAME) removed\033[0m"
@@ -106,4 +115,12 @@ doxygen:
 	@$(DOXYGEN) $(DOXYGEN_CONFIG)
 	@$(ECHO) "\033[32mDoxygen generated\033[0m"
 
-.PHONY: all clean fclean re norm test doxygen
+dist: fclean
+	$(MKDIR) $(DIST_DIR)
+	$(CP) $(SRCS_DIR) $(INCS_DIR) $(LIBS_DIR) $(DIST_DIR)
+	$(CP) Makefile $(DIST_DIR)
+	$(SED) 's|^NAME = $$(BINS_DIR)/pipex$$|NAME = pipex|' $(DIST_DIR)/Makefile
+	$(SED) '/^\$$(NAME):/ s/ | $$(BINS_DIR)//' $(DIST_DIR)/Makefile
+	@$(ECHO) "\033[32mDistribution files copied\033[0m"
+
+.PHONY: all clean fclean re norm test doxygen dist

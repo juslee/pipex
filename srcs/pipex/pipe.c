@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:39:00 by welee             #+#    #+#             */
-/*   Updated: 2024/09/13 16:02:43 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:39:29 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	handle_first_cmd(t_pipex *pipex, int *pipefd)
 }
 
 /**
- * @brief Handle the second command in the pipeline
+ * @brief Handle the last command in the pipeline
  * @param pipex The pipex struct
  * @param pipefd The pipe file descriptors
  */
@@ -70,27 +70,33 @@ static void	handle_last_cmd(t_pipex *pipex, int *pipefd)
 	close(fd_out);
 }
 
+/**
+ * @brief Handle the middle command in the pipeline
+ * @param prev_pipe The previous pipe file descriptors
+ * @param next_pipe The next pipe file descriptors
+ */
 static void	handle_middle_cmd(int *prev_pipe, int *next_pipe)
 {
 	dup2(prev_pipe[0], STDIN_FILENO);
 	dup2(next_pipe[1], STDOUT_FILENO);
 }
 
-static void	wait_pids(t_pipex *pipex)
+/**
+ * @brief Wait for the child processes to finish
+ * @param pipes The pipes
+ */
+static void	wait_pids(t_pipex *pipex, pid_t *pids, int num_cmds)
 {
-	int		status;
-	int		i;
-	int		last_status;
+	int	status;
+	int	i;
+	int	last_status;
 
 	i = 0;
-	while (i < pipex->num_cmds)
+	while (i < num_cmds)
 	{
-		if (waitpid(pipex->pids[i], &status, 0) == -1)
-		{
-			perror("waitpid");
-			free_exit(pipex, EXIT_FAILURE);
-		}
-		if (i == pipex->num_cmds - 1)
+		if (waitpid(pids[i], &status, 0) == -1)
+			error_exit("waitpid", pipex, EXIT_FAILURE);
+		if (i == num_cmds - 1)
 		{
 			if (WIFEXITED(status))
 				last_status = WEXITSTATUS(status);
@@ -104,6 +110,11 @@ static void	wait_pids(t_pipex *pipex)
 	free_exit(pipex, last_status);
 }
 
+/**
+ * @brief Setup the pipes and execute the commands
+ * @param pipex The pipex struct
+ * @param envp The environment variables
+ */
 void	setup_pipes(t_pipex *pipex, char **envp)
 {
 	int		i;
@@ -129,5 +140,5 @@ void	setup_pipes(t_pipex *pipex, char **envp)
 		i++;
 	}
 	close_pipes(pipex->pipes, pipex->num_cmds);
-	wait_pids(pipex);
+	wait_pids(pipex, pipex->pids, pipex->num_cmds);
 }

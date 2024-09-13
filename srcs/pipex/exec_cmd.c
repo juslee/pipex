@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:40:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/13 16:49:20 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:41:29 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,7 @@ static void	wait_child_process(t_pipex *pipex, pid_t pid)
 	int	status;
 
 	if (waitpid(pid, &status, 0) == -1)
-	{
-		perror("waitpid");
-		free_exit(pipex, EXIT_FAILURE);
-	}
+		error_exit("waitpid", pipex, EXIT_FAILURE);
 	if (WIFEXITED(status))
 		free_exit(pipex, WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))

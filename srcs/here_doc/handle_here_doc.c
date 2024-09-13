@@ -6,12 +6,17 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 13:15:56 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 13:18:16 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:33:42 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Handle the here document
+ * @param pipex The pipex structure
+ * @param limiter The limiter
+ */
 void	handle_here_doc(t_pipex *pipex, char *limiter)
 {
 	char	*line;

@@ -6,12 +6,18 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:51:32 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 15:55:39 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:29:50 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Parse the arguments passed to the program
+ * @param argc The number of arguments
+ * @param argv The arguments
+ * @param pipex The pipex struct
+ */
 void	parse_args(int argc, char **argv, t_pipex *pipex)
 {
 	int	i;

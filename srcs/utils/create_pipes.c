@@ -6,12 +6,16 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 13:54:15 by welee             #+#    #+#             */
-/*   Updated: 2024/09/10 13:59:52 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:34:50 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Create the pipes
+ * @param pipex The pipex structure
+ */
 void	create_pipes(t_pipex *pipex)
 {
 	int	i;

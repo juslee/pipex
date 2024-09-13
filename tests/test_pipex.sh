@@ -261,13 +261,15 @@ $VALGRIND $PIPEX "./deepthought.txt" cat cat cat "grep Now" cat cat cat "tail -2
 res_check "~~~~~~ B5"
 
 printf "${COLOR_Y}here_doc\n${COLOR_END}"
-echo "try typing: this is a sentence that is in here_doc EOF"
+echo "try typing: "
+echo "test"
+echo "EOF"
 cat << EOF | head -4 | wc >> outfile1
 test
 EOF
 $VALGRIND $PIPEX here_doc EOF cat "head -4" wc outfile2 2> output.log; $VAL_CHECK
 res_check "~~~~~~ here_doc"
-printf "${COLOR_YI}[Test it manually]\n${COLOR_END}"
+# printf "${COLOR_YI}[Test it manually]\n${COLOR_END}"
 
 rm -fr outfile1
 rm -fr outfile2

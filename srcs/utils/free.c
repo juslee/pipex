@@ -6,12 +6,16 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 10:50:42 by welee             #+#    #+#             */
-/*   Updated: 2024/09/11 01:11:44 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 17:31:51 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+/**
+ * @brief Free the split string
+ * @param split The split string
+ */
 void	free_split(char **split)
 {
 	int	i;
@@ -25,6 +29,11 @@ void	free_split(char **split)
 	free(split);
 }
 
+/**
+ * @brief Close the pipes
+ * @param pipes The pipes
+ * @param num_cmds The number of commands
+ */
 void	close_pipes(int **pipes, int num_cmds)
 {
 	int	i;
@@ -40,6 +49,11 @@ void	close_pipes(int **pipes, int num_cmds)
 	}
 }
 
+/**
+ * @brief Free the pipes
+ * @param pipes The pipes
+ * @param num_cmds The number of commands
+ */
 void	free_pipes(int **pipes, int num_cmds)
 {
 	int	i;
@@ -55,6 +69,11 @@ void	free_pipes(int **pipes, int num_cmds)
 		free(pipes);
 }
 
+/**
+ * @brief Free the commands
+ * @param cmds The commands
+ * @param num_cmds The number of commands
+ */
 void	free_cmds(char **cmds, int num_cmds)
 {
 	int	i;
@@ -70,6 +89,10 @@ void	free_cmds(char **cmds, int num_cmds)
 		free(cmds);
 }
 
+/**
+ * @brief Free the pipex structure
+ * @param pipex The pipex structure
+ */
 void	free_pipex(t_pipex *pipex)
 {
 	if (pipex->cmds)

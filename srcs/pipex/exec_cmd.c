@@ -6,7 +6,7 @@
 /*   By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 23:40:18 by welee             #+#    #+#             */
-/*   Updated: 2024/09/13 16:11:12 by welee            ###   ########.fr       */
+/*   Updated: 2024/09/13 16:49:20 by welee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ static void	wait_child_process(t_pipex *pipex, pid_t pid)
 		free_exit(pipex, EXIT_FAILURE);
 	}
 	if (WIFEXITED(status))
-		exit(WEXITSTATUS(status));
+		free_exit(pipex, WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
-		exit(128 + WTERMSIG(status));
+		free_exit(pipex, 128 + WTERMSIG(status));
 	else
-		exit(EXIT_FAILURE);
+		free_exit(pipex, EXIT_FAILURE);
 }
 
 /**
@@ -79,8 +79,7 @@ static void	child_process(t_pipex *pipex, int *pipefd, char *cmd, char **envp)
 	args[2] = cmd;
 	args[3] = NULL;
 	execve(args[0], args, envp);
-	perror("pipex");
-	exit(127);
+	error_exit("pipex", pipex, 127);
 }
 
 /**

@@ -6,7 +6,7 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/13 19:07:07 by welee            ###   ########.fr        #
+#    Updated: 2024/09/15 14:41:05 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,18 @@ NAME = $(BINS_DIR)/pipex
 SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
+# Directory Variables ---------------------------------------------------------#
+SRCS_DIR = srcs
+OBJS_DIR = objs
+INCS_DIR = includes
+TEST_DIR = tests
+DIST_DIR = dist
+LIBS_DIR = libs
+BINS_DIR = bin
+DOCS_DIR = docs
+# ---------------------------------------------------------------------------- #
 
+# Library Variables -----------------------------------------------------------#
 LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/bin/libft.a
 LIBFT_LIB = -L$(LIBFT_DIR)/bin -lft
@@ -24,16 +35,9 @@ GET_NEXT_LINE_DIR = $(LIBS_DIR)/get_next_line
 GET_NEXT_LINE = $(GET_NEXT_LINE_DIR)/bin/libgnl.a
 GET_NEXT_LINE_LIB = -L$(GET_NEXT_LINE_DIR)/bin -lgnl
 GET_NEXT_LINE_INC = $(GET_NEXT_LINE_DIR)/includes
+# ---------------------------------------------------------------------------- #
 
-SRCS_DIR = srcs
-OBJS_DIR = objs
-INCS_DIR = includes
-TEST_DIR = tests
-DIST_DIR = dist
-LIBS_DIR = libs
-BINS_DIR = bin
-DOCS_DIR = docs
-
+# Macros Definitions ----------------------------------------------------------#
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCS_DIR) -I$(LIBFT_INC) -I$(GET_NEXT_LINE_INC)
 LIBC = ar rcs
@@ -52,13 +56,17 @@ else
 	$(error Unsupported OS)
 endif
 WHOAMI = $(shell whoami)
+# ---------------------------------------------------------------------------- #
 
+# Tools Variables -------------------------------------------------------------#
 NORM = norminette
 NORM_FLAGS = -R CheckForbiddenSourceHeader -R CheckDefine
 
 DOXYGEN = doxygen
 DOXYGEN_CONFIG = Doxyfile
+# ---------------------------------------------------------------------------- #
 
+# Rule Definitions ------------------------------------------------------------#
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJS) | $(BINS_DIR)
@@ -103,7 +111,7 @@ tests: all
 	@$(ECHO) "\033[32mTest completed\033[0m"
 
 doxygen:
-	@$(DOXYGEN) $(DOXYGEN_CONFIG)
+	$(DOXYGEN) $(DOXYGEN_CONFIG)
 	@$(ECHO) "\033[32mDoxygen generated\033[0m"
 
 dist: fclean
@@ -115,3 +123,4 @@ dist: fclean
 	@$(ECHO) "\033[32mDistribution files copied\033[0m"
 
 .PHONY: all clean fclean re norm test doxygen dist
+# ---------------------------------------------------------------------------- #

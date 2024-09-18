@@ -6,15 +6,16 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/15 14:41:05 by welee            ###   ########.fr        #
+#    Updated: 2024/09/18 16:50:09 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = $(BINS_DIR)/pipex
 SRCS = $(shell find $(SRCS_DIR) -name "*.c")
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+INCS = $(wildcard $(INCS_DIR)/*.h)
 
-# Directory Variables ---------------------------------------------------------#
+# Directory Variables -------------------------------------------------------- #
 SRCS_DIR = srcs
 OBJS_DIR = objs
 INCS_DIR = includes
@@ -25,7 +26,7 @@ BINS_DIR = bin
 DOCS_DIR = docs
 # ---------------------------------------------------------------------------- #
 
-# Library Variables -----------------------------------------------------------#
+# Library Variables ---------------------------------------------------------- #
 LIBFT_DIR = $(LIBS_DIR)/libft
 LIBFT = $(LIBFT_DIR)/bin/libft.a
 LIBFT_LIB = -L$(LIBFT_DIR)/bin -lft
@@ -37,7 +38,7 @@ GET_NEXT_LINE_LIB = -L$(GET_NEXT_LINE_DIR)/bin -lgnl
 GET_NEXT_LINE_INC = $(GET_NEXT_LINE_DIR)/includes
 # ---------------------------------------------------------------------------- #
 
-# Macros Definitions ----------------------------------------------------------#
+# Macros Variables ----------------------------------------------------------- #
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I$(INCS_DIR) -I$(LIBFT_INC) -I$(GET_NEXT_LINE_INC)
 LIBC = ar rcs
@@ -66,7 +67,7 @@ DOXYGEN = doxygen
 DOXYGEN_CONFIG = Doxyfile
 # ---------------------------------------------------------------------------- #
 
-# Rule Definitions ------------------------------------------------------------#
+# Rules Definitions -----------------------------------------------------------#
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(GET_NEXT_LINE) $(OBJS) | $(BINS_DIR)
@@ -82,10 +83,13 @@ $(LIBFT):
 $(GET_NEXT_LINE):
 	$(MAKE) -C $(GET_NEXT_LINE_DIR)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(INCS) | $(OBJS_DIR)
 	$(MKDIR) $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 	@$(ECHO) "\033[33m$@\033[0m"
+
+$(OBJS_DIR):
+	$(MKDIR) $@
 
 clean:
 	$(RM) $(OBJS)
@@ -106,7 +110,7 @@ norm:
 	$(NORM) $(NORM_FLAGS) $(SRCS_DIR) $(INCS_DIR)
 	@$(ECHO) "\033[32mNorm check completed\033[0m"
 
-tests: all
+tests: $(NAME)
 	$(TEST_DIR)/test_pipex.sh
 	@$(ECHO) "\033[32mTest completed\033[0m"
 

@@ -6,12 +6,15 @@
 #    By: welee <welee@student.42singapore.sg>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/04 15:53:28 by welee             #+#    #+#              #
-#    Updated: 2024/09/18 16:50:09 by welee            ###   ########.fr        #
+#    Updated: 2024/09/18 16:56:01 by welee            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = $(BINS_DIR)/pipex
-SRCS = $(shell find $(SRCS_DIR) -name "*.c")
+SRCS = $(wildcard $(SRCS_DIR)/*.c) \
+	   $(wildcard $(SRCS_DIR)/here_doc/*.c) \
+	   $(wildcard $(SRCS_DIR)/pipex/*.c) \
+	   $(wildcard $(SRCS_DIR)/utils/*.c)
 OBJS = $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 INCS = $(wildcard $(INCS_DIR)/*.h)
 

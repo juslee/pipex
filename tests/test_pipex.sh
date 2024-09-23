@@ -2,7 +2,7 @@
 # norminette -R CheckForbiddenSourceHeader CheckDefine
 
 # Set PIPEX variable
-PIPEX=./pipex
+PIPEX=$1
 
 # Detect OS and set VALGRIND variable
 UNAME_S=$(uname -s)
